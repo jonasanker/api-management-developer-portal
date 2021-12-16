@@ -13,8 +13,20 @@ export enum ServiceSkuName {
  * Types of API.
  */
 export enum TypeOfApi {
+    webSocket = "websocket",
     soap = "soap",
-    http = "http"
+    http = "http",
+    graphQL = "graphql"
+}
+
+/**
+ * Types of body format.
+ */
+export enum RequestBodyType {
+    raw = "raw",
+    string = "string",
+    binary = "binary",
+    form = "form"
 }
 
 /**
@@ -31,6 +43,17 @@ export enum AadEndpoints {
     legacy = "login.windows.net"
 }
 
+/**
+ * Types of direction (e.g. for sorting of elements in a table)
+ */
+export enum Direction {
+    asc = 'asc',
+    desc = 'desc'
+}
+
+export const defaultAadTenantName = "common";
+
+export const closeAccount = "close-account";
 export const hashSignOut = "signout";
 export const pageUrlSignIn = "/signin";
 export const pageUrlSignInSso = "/signinsso";
@@ -82,12 +105,56 @@ export const defaultInputDelayMs = 600;
 export const AppType = "developerPortal";
 
 /**
+ * Query Editor Settings - GraphQL Console
+ */
+export const QueryEditorSettings = {
+    id: "queryEditor",
+    config: {
+        language: 'graphqlQuery',
+        readOnly: false,
+    }
+}
+
+/**
+* Variables Editor Settings - GraphQL Console
+*/
+export const VariablesEditorSettings = {
+    id: "variablesEditor",
+    config: {
+        language: 'json',
+        readOnly: false,
+    }
+}
+
+/**
+ * Response Settings - GraphQL Console
+ */
+export const ResponseSettings = {
+    id: "responseEditor",
+    config: {
+        language: 'json',
+        readOnly: true,
+    }
+}
+
+/**
+* Graphql operation types
+*/
+export enum GraphqlOperationTypes {
+    query = "query",
+    mutation = "mutation",
+    subscription = "subscription"
+}
+
+/**
  * Known setting names.
  */
 export enum SettingNames {
     backendUrl = "backendUrl",
     managementApiUrl = "managementApiUrl",
     managementApiAccessToken = "managementApiAccessToken",
+    aadClientConfig = "aad",
+    aadB2CClientConfig = "aadB2C"
     subscriptionId = "subscriptionId",
     resourceGroupName = "resourceGroupName",
     serviceName = "serviceName",
@@ -124,7 +191,7 @@ export enum GrantTypes {
     password = "password"
 }
 
-export const managementApiVersion = "2019-12-01";
+export const managementApiVersion = "2021-04-01-preview";
 
 /**
  * Developer portal type (self-hosted or managed).
@@ -135,3 +202,10 @@ export const developerPortalType = "self-hosted-portal";
  * Header name to track developer portal type.
  */
 export const portalHeaderName = "x-ms-apim-client";
+
+export const releaseNameFormat = "YYYYMMDDHHmm";
+
+export const genericHttpRequestError = "Server error. Unable to send request. Please try again later.";
+
+export const oauthSessionKey = "oauthSession";
+export const reservedCharTuplesForOData: [string, string][] = [["'", "''"]];
