@@ -47,8 +47,8 @@ export enum AadEndpoints {
  * Types of direction (e.g. for sorting of elements in a table)
  */
 export enum Direction {
-    asc = 'asc',
-    desc = 'desc'
+    asc = "asc",
+    desc = "desc"
 }
 
 export const defaultAadTenantName = "common";
@@ -110,10 +110,10 @@ export const AppType = "developerPortal";
 export const QueryEditorSettings = {
     id: "queryEditor",
     config: {
-        language: 'graphqlQuery',
+        language: "graphqlQuery",
         readOnly: false,
     }
-}
+};
 
 /**
 * Variables Editor Settings - GraphQL Console
@@ -121,10 +121,10 @@ export const QueryEditorSettings = {
 export const VariablesEditorSettings = {
     id: "variablesEditor",
     config: {
-        language: 'json',
+        language: "json",
         readOnly: false,
     }
-}
+};
 
 /**
  * Response Settings - GraphQL Console
@@ -132,14 +132,14 @@ export const VariablesEditorSettings = {
 export const ResponseSettings = {
     id: "responseEditor",
     config: {
-        language: 'json',
+        language: "json",
         readOnly: true,
     }
-}
+};
 
 /**
-* Graphql operation types
-*/
+ * Graphql operation types
+ */
 export enum GraphqlOperationTypes {
     query = "query",
     mutation = "mutation",
@@ -154,7 +154,7 @@ export enum SettingNames {
     managementApiUrl = "managementApiUrl",
     managementApiAccessToken = "managementApiAccessToken",
     aadClientConfig = "aad",
-    aadB2CClientConfig = "aadB2C"
+    aadB2CClientConfig = "aadB2C",
     subscriptionId = "subscriptionId",
     resourceGroupName = "resourceGroupName",
     serviceName = "serviceName",
