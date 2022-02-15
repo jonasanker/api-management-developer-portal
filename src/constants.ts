@@ -43,6 +43,11 @@ export enum AadEndpoints {
     legacy = "login.windows.net"
 }
 
+export enum AadVersions {
+    v1 = "v1",
+    v2 = "v2"
+}
+
 /**
  * Types of direction (e.g. for sorting of elements in a table)
  */
