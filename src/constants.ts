@@ -115,6 +115,23 @@ export const defaultInputDelayMs = 600;
 export const AppType = "developerPortal";
 
 /**
+ * HTML Editor Settings - HTML injection widget editor
+ */
+ export const HtmlEditorSettings = {
+    id: "htmlEditor",
+    config: {
+        language: "html",
+        readOnly: false,
+
+        lineHeight: 17,
+        automaticLayout: true,
+        minimap: {
+            enabled: false
+        },
+    }
+ };
+
+/**
  * Query Editor Settings - GraphQL Console
  */
 export const QueryEditorSettings = {
@@ -126,8 +143,8 @@ export const QueryEditorSettings = {
 };
 
 /**
-* Variables Editor Settings - GraphQL Console
-*/
+ * Variables Editor Settings - GraphQL Console
+ */
 export const VariablesEditorSettings = {
     id: "variablesEditor",
     config: {
@@ -147,13 +164,48 @@ export const ResponseSettings = {
     }
 };
 
-/**
- * Graphql operation types
+ /**
+ * Graphql types
  */
-export enum GraphqlOperationTypes {
+  export enum GraphqlTypes {
     query = "query",
     mutation = "mutation",
-    subscription = "subscription"
+    subscription = "subscription",
+}
+
+ /**
+ * Graphql types for documentation
+ */
+export enum GraphqlTypesForDocumentation {
+    query = "Query",
+    mutation = "Mutation",
+    subscription = "Subscription",
+    objectType = "Object Type",
+    inputObjectType = "Input Object Type",
+    enumType = "Enum Type",
+    scalarType = "Scalar Type",
+    unionType = "Union Type",
+    interfaceType = "Interface Type"
+}
+
+export enum GraphqlCustomFieldNames {
+    selected = "isSelectedForDoc",
+    type = "collectionTypeForDoc",
+}
+
+export enum GraphqlDefaultScalarTypes {
+    int = "Int",
+    float = "Float",
+    string = "String",
+    boolean = "Boolean",
+    id = "ID"
+}
+
+export enum GraphqlFieldTypes {
+    args = "args",
+    fields = "_fields",
+    values = "_values",
+    types = "_types"
 }
 
 /**
