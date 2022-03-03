@@ -3,14 +3,33 @@ import { ISettingsProvider } from "@paperbits/common/configuration";
 import { Logger } from "@paperbits/common/logging";
 import { Utils } from "../utils";
 import { TtlCache } from "./ttlCache";
-import { HttpClient, HttpRequest, HttpResponse, HttpMethod, HttpHeader } from "@paperbits/common/http";
+import {
+    HttpClient,
+    HttpRequest,
+    HttpResponse,
+    HttpMethod,
+    HttpHeader,
+} from "@paperbits/common/http";
 import { MapiError } from "../errors/mapiError";
 import { IAuthenticator, AccessToken } from "../authentication";
 import { KnownHttpHeaders } from "../models/knownHttpHeaders";
 import { KnownMimeTypes } from "../models/knownMimeTypes";
 import { Page } from "../models/page";
 
-export class MapiClient {
+export interface IHttpBatchResponses {
+    responses: IHttpBatchResponse[];
+}
+
+export interface IHttpBatchResponse {
+    httpStatusCode: number;
+    headers: {
+        [key: string]: string;
+    };
+    content: any;
+}
+
+//TODO: update management api url definitions
+export class BackendClient {
     private managementApiUrl: string;
     private environment: string;
     private initializePromise: Promise<void>;
@@ -33,13 +52,11 @@ export class MapiClient {
     private async initialize(): Promise<void> {
         const settings = await this.settingsProvider.getSettings();
 
-        const managementApiUrl = settings[Constants.SettingNames.managementApiUrl];
+        this.managementApiUrl = settings[Constants.SettingNames.backendUrl];
 
-        if (!managementApiUrl) {
-            throw new Error(`Management API URL ("${Constants.SettingNames.managementApiUrl}") setting is missing in configuration file.`);
+        if (!this.managementApiUrl) {
+            throw new Error(`Management API URL ("${Constants.SettingNames.backendUrl}") setting is missing in configuration file.`);
         }
-
-        this.managementApiUrl = Utils.ensureUrlArmified(managementApiUrl);
 
         const managementApiAccessToken = settings[Constants.SettingNames.managementApiAccessToken];
 
@@ -111,7 +128,7 @@ export class MapiClient {
                 httpRequest.headers.push({ name: KnownHttpHeaders.Authorization, value: `${accessToken}` });
             } else {
                 if (!portalHeader) {
-                    httpRequest.headers.push(MapiClient.getPortalHeader("unauthorized"));
+                    httpRequest.headers.push(BackendClient.getPortalHeader("unauthorized"));
                 } else {
                     portalHeader.value = `${portalHeader.value}-unauthorized`;
                 }
@@ -119,7 +136,7 @@ export class MapiClient {
         }
 
         if (!portalHeader && httpRequest.method !== HttpMethod.head) {
-            httpRequest.headers.push(MapiClient.getPortalHeader());
+            httpRequest.headers.push(BackendClient.getPortalHeader());
         }
 
         // Do nothing if absolute URL

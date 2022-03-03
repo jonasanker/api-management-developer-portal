@@ -68,6 +68,7 @@ import { AnalyticsService } from "./services/analyticsService";
 import { ApiService } from "./services/apiService";
 import { BackendService } from "./services/backendService";
 import { MapiClient } from "./services/mapiClient";
+import { BackendClient } from "./services/backendClient";
 import { OAuthService } from "./services/oauthService";
 import { ProductService } from "./services/productService";
 import { ProvisionService } from "./services/provisioningService";
@@ -80,7 +81,7 @@ import { Pagination } from "./components/pagination/pagination";
 import { StaticDataHttpClient } from "./services/staticDataHttpClient";
 import { OauthServerConfiguration } from "./components/operations/operation-details/ko/runtime/oauth-server-configuration";
 import { RuntimeStaticDataProvider } from "./services/runtimeStaticDataProvider";
-import {staticDataEnvironment} from "./../environmentConstants"
+import { staticDataEnvironment } from "./../environmentConstants"
 
 
 export class ApimRuntimeModule implements IInjectorModule {
@@ -139,6 +140,7 @@ export class ApimRuntimeModule implements IInjectorModule {
         injector.bindSingleton("backendService", BackendService);
         injector.bindSingleton("aadService", AadService);
         injector.bindSingleton("mapiClient", MapiClient);
+        injector.bindSingleton("backendClient", BackendClient);
         injector.bindSingleton("settingsProvider", ApimSettingsProvider);
         injector.bindSingleton("authenticator", DefaultAuthenticator);
         injector.bindSingleton("routeHelper", RouteHelper);

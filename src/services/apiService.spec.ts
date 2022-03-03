@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { ConsoleLogger } from "@paperbits/common/logging";
 import { ApiService } from "./apiService";
-import { MapiClient } from "./mapiClient";
+import { BackendClient } from "./backendClient";
 import { MockHttpClient, bookStoreApi } from "./../../tests/mocks";
 import { StaticAuthenticator } from "./../components/staticAuthenticator";
 import { StaticSettingsProvider } from "./../components/staticSettingsProvider";
@@ -25,9 +25,9 @@ describe("API service", async () => {
                 value: [bookStoreApi]
             });
 
-        const mapiClient = new MapiClient(httpClient, authenticator, settingsProvider, logger);
+        const backendClient = new BackendClient(httpClient, authenticator, settingsProvider, logger);
 
-        const apiService = new ApiService(mapiClient);
+        const apiService = new ApiService(backendClient);
         const apis = await apiService.getApis();
 
         expect(apis.value.length).to.equals(1);
@@ -41,9 +41,9 @@ describe("API service", async () => {
             .get("/apis/book-store-api")
             .reply(200, bookStoreApi);
 
-        const mapiClient = new MapiClient(httpClient, authenticator, settingsProvider, logger);
+        const backendClient = new BackendClient(httpClient, authenticator, settingsProvider, logger);
 
-        const apiService = new ApiService(mapiClient);
+        const apiService = new ApiService(backendClient);
         const api = await apiService.getApi("apis/book-store-api");
 
         expect(api.displayName).to.equal(bookStoreApi.properties.displayName);
