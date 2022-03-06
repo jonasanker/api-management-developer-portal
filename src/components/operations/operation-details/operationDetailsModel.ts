@@ -1,3 +1,5 @@
+import { LocalStyles } from "@paperbits/common/styles";
+
 export class OperationDetailsModel {
     /**
      * Indicates whether "Try" button should appear on the operation details widget.
@@ -19,7 +21,13 @@ export class OperationDetailsModel {
      */
     public useCorsProxy?: boolean;
 
+    /**
+     * Widget local styles.
+     */
+    public styles: LocalStyles;
+
     constructor() {
         this.enableConsole = true;
+        this.styles = {};
     }
 }
