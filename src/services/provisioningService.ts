@@ -25,14 +25,16 @@ export class ProvisionService {
         return response.toObject();
     }
 
+    //TODO: update namings for backend URL
     private async getManagementUrl(): Promise<string> {
         const settings = await this.settingsProvider.getSettings();
-        const managementApiUrl = settings[Constants.SettingNames.managementApiUrl];
+        const managementApiUrl = settings[Constants.SettingNames.backendUrl];
 
         if (!managementApiUrl) {
             throw new Error(`Management API URL ("managementApiUrl") setting is missing in configuration file.`);
         }
-        return Utils.ensureUrlArmified(managementApiUrl);
+        return managementApiUrl
+        // return Utils.ensureUrlArmified(managementApiUrl);
     }
 
     public async provision(): Promise<void> {
