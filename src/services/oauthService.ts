@@ -9,7 +9,7 @@ import { GrantTypes } from "./../constants";
 import { OpenIdConnectMetadata } from "./../contracts/openIdConnectMetadata";
 import { UnauthorizedError } from "./../errors/unauthorizedError";
 import { OpenIdConnectProvider } from "./../models/openIdConnectProvider";
-import { MapiClient } from "./mapiClient";
+import { BackendClient } from "./backendClient";
 import { KnownHttpHeaders } from "../models/knownHttpHeaders";
 import { KnownMimeTypes } from "../models/knownMimeTypes";
 
@@ -17,7 +17,7 @@ export class OAuthService {
     private environmentPromise: Promise<string>;
 
     constructor(
-        private readonly mapiClient: MapiClient,
+        private readonly backendClient: BackendClient,
         private readonly httpClient: HttpClient,
         private readonly settingsProvider: ISettingsProvider
     ) { }
@@ -51,12 +51,12 @@ export class OAuthService {
         try {
             let authorizationServer: AuthorizationServer;
             if (authorizationServerId) {
-                const authServer = await this.mapiClient.get<AuthorizationServerContract>(`/authorizationServers/${authorizationServerId}`, [MapiClient.getPortalHeader("getAuthorizationServer")]);
+                const authServer = await this.backendClient.get<AuthorizationServerContract>(`/authorizationServers/${authorizationServerId}`, [BackendClient.getPortalHeader("getAuthorizationServer")]);
                 authorizationServer = new AuthorizationServer(authServer);
                 return authorizationServer;
             }
             if (openidProviderId) {
-                const authServer = await this.mapiClient.get<OpenIdConnectProviderContract>(`/openidConnectProviders/${openidProviderId}`, [MapiClient.getPortalHeader("getOpenidConnectProvider")]);
+                const authServer = await this.backendClient.get<OpenIdConnectProviderContract>(`/openidConnectProviders/${openidProviderId}`, [BackendClient.getPortalHeader("getOpenidConnectProvider")]);
                 const provider = new OpenIdConnectProvider(authServer);
                 try {
                     const openIdServer = await this.discoverOAuthServer(provider.metadataEndpoint);
@@ -81,11 +81,11 @@ export class OAuthService {
     public async loadAllServers(): Promise<AuthorizationServer[]> {
         try {
             const authorizationServers = [];
-            const allOAuthServers = await this.mapiClient.getAll<AuthorizationServerContract>("/authorizationServers", [MapiClient.getPortalHeader("getAuthorizationServers")]);
+            const allOAuthServers = await this.backendClient.getAll<AuthorizationServerContract>("/authorizationServers", [BackendClient.getPortalHeader("getAuthorizationServers")]);
             const oauthServers = allOAuthServers.map(authServer => new AuthorizationServer(authServer));
             authorizationServers.push(...oauthServers);
 
-            const allOicdServers = await this.mapiClient.getAll<OpenIdConnectProviderContract>("/openidConnectProviders", [MapiClient.getPortalHeader("getOpenidConnectProviders")]);
+            const allOicdServers = await this.backendClient.getAll<OpenIdConnectProviderContract>("/openidConnectProviders", [BackendClient.getPortalHeader("getOpenidConnectProviders")]);
             const oicdServers = allOicdServers.map(authServer => new OpenIdConnectProvider(authServer));
 
             for (const provider of oicdServers) {
