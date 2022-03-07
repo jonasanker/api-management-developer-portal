@@ -4,6 +4,7 @@ import { describe, it } from "mocha";
 import { ConsoleLogger } from "@paperbits/common/logging";
 import { ProductService } from "./productService";
 import { MapiClient } from "./mapiClient";
+import { BackendClient } from "./backendClient";
 import { MockHttpClient, starterProduct } from "../../tests/mocks";
 import { StaticAuthenticator } from "../components/staticAuthenticator";
 import { StaticSettingsProvider } from "../components/staticSettingsProvider";
@@ -26,7 +27,8 @@ describe("Product service", async () => {
             .reply(200, { value: [starterProduct] });
 
         const mapiClient = new MapiClient(httpClient, authenticator, settingsProvider, logger);
-        const tenantService = new TenantService(mapiClient);
+        const backendClient = new BackendClient(httpClient, authenticator, settingsProvider, logger);
+        const tenantService = new TenantService(backendClient);
 
         const productService = new ProductService(mapiClient, tenantService);
         const products = await productService.getProducts();
@@ -43,7 +45,8 @@ describe("Product service", async () => {
             .reply(200, starterProduct);
 
         const mapiClient = new MapiClient(httpClient, authenticator, settingsProvider, logger);
-        const tenantService = new TenantService(mapiClient);
+        const backendClient = new BackendClient(httpClient, authenticator, settingsProvider, logger);
+        const tenantService = new TenantService(backendClient);
 
         const productService = new ProductService(mapiClient, tenantService);
         const product = await productService.getProduct("/products/starter");

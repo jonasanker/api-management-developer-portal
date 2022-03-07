@@ -1,17 +1,17 @@
 import { TenantSettings } from "../contracts/tenantSettings";
-import { MapiClient } from "./mapiClient";
+import { BackendClient } from "./backendClient";
 
 /**
  * A service for management operations with API Management tenant.
  */
 export class TenantService {
-    constructor(private readonly mapiClient: MapiClient) { }
+    constructor(private readonly backendClient: BackendClient) { }
 
     /**
      * Returns tenant settings.
      */
     public async getSettings(): Promise<TenantSettings> {
-        const result = await this.mapiClient.get("/tenant/settings?api-version=2019-12-01", [MapiClient.getPortalHeader("getSettings")]);
+        const result = await this.backendClient.get("/tenant/settings?api-version=2019-12-01", [BackendClient.getPortalHeader("getSettings")]);
         return result && result["settings"];
     }
 
