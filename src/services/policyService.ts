@@ -1,11 +1,11 @@
-import { MapiClient } from ".";
+import { BackendClient } from ".";
 
 export class PolicyService {
-    constructor(private readonly mapiClient: MapiClient) { }
+    constructor(private readonly backendClient: BackendClient) { }
 
     public async getPolicyXmlForGlobalScope(): Promise<string> {
         try {
-            const policyXml = await this.mapiClient.get<string>(`/policies/policy?format=rawxml`, [MapiClient.getPortalHeader("getPolicyXmlForGlobalScope")]);
+            const policyXml = await this.backendClient.get<string>(`/policies/policy?format=rawxml`, [BackendClient.getPortalHeader("getPolicyXmlForGlobalScope")]);
             return policyXml;
         }
         catch (error) {
